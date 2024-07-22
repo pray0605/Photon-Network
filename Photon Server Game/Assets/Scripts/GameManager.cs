@@ -1,18 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEditor.Experimental.GraphView;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
+    [SerializeField] GameObject prefabs;
+
+    public void Awake()
+    {
+        Create();   
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Create()
     {
-        
+        PhotonNetwork.Instantiate
+        (
+            "Character",
+            RandomPosition(5),
+            Quaternion.identity
+        );
+    }
+
+    public Vector3 RandomPosition(int value)
+    {
+        Vector3 direction = Random.insideUnitSphere.normalized;
+
+        direction *= value;
+
+        direction.y = 1;
+
+        return direction;
     }
 }
